@@ -1,0 +1,1 @@
+curl -X POST -F "audio=@E:\python-code\Rockstar\audio-services\code\input\come.mp3" "http://localhost:9003/upload"

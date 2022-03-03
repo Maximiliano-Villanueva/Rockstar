@@ -1,0 +1,3 @@
+spleeter
+flask
+python-dotenv

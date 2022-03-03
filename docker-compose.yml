@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+    instrument-separator:
+        restart: always
+        container_name : audio-services
+        build: ./audio-services
+        tty: true
+        ports: 
+            - '9003:8081'
+
+
+        volumes:
+          - type: bind
+            source : E:\python-code\Rockstar\audio-services
+            target : /home/shared-files
+
+
+networks:
+    net:
+        ipam:
+            driver: default
+            config:
+                - subnet: 212.172.1.0/30
+    host:
+        name: host
+        external: true
+
+
