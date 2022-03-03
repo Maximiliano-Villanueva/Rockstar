@@ -15,7 +15,7 @@ class AudioSpleeter:
         self.separator = Separator('spleeter:5stems')
         self.sample_rate = 44100
     
-    def separate(self, audio_input):
+    def separate(self, audio_input, output_dir = 'output'):
         """
         separate the audio into 5 files (5 stems)
         """
@@ -27,17 +27,19 @@ class AudioSpleeter:
         logging.info('processing {0} files'.format(str(len(audio_list))))
 
         for audio_input in audio_list:
+            if not os.path.exists(audio_input):
+                raise Exception("file: {0} not found".format(audio_input))
             logging.debug('separating file {0}'.format('audio_input'))
 
             audio_loader = AudioAdapter.default()
             waveform, _ = audio_loader.load(audio_input, sample_rate=self.sample_rate)
 
-            self.separator.separate_to_file(audio_input, 'output', synchronous=False)
+            self.separator.separate_to_file(audio_input, output_dir, synchronous=False)
 
             #remove extension from filename
             file_name = os.path.basename(audio_input)
             file_name = '.'.join(file_name.split('.')[:-1])
-            file_paths.append(os.path.join('output', file_name))
+            file_paths.append(os.path.join(output_dir, file_name))
         
         logging.debug('waiting for threads to join')
         self.separator.join()

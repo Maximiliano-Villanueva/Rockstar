@@ -6,3 +6,4 @@ audio-services/code/uploads/*
 *.pyc
 *.log
 audio-services/code/pretrained_models/*
+audio-services/tests/main-package/pretrained_models/*
