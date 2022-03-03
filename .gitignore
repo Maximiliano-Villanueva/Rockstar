@@ -3,3 +3,4 @@ audio-services/old/*
 audio-services/output/*
 audio-services/pretained_models/*
 audio-services/uploads/*
+*.pyc
