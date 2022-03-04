@@ -1,3 +1,4 @@
 spleeter
 flask
 python-dotenv
+matplotlib
