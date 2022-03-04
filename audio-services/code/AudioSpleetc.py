@@ -18,7 +18,17 @@ class AudioSpleeter:
     def separate(self, audio_input, output_dir = 'output'):
         """
         separate the audio into 5 files (5 stems)
+        audio_input -> path or list of paths to the audio failes
+        output_dir -> name of the output directory (default output)
         """
+        #validate parameters
+        if audio_input is None:
+            raise Exception("audio_input parameter is not valid")
+        
+        elif output_dir is None:
+            raise Exception("output_dir parameter is not valid")
+        
+
         #convert audio_input to list
         logging.info('entering function separate in class {0}, audio_input = {1}'.format('AudioSpleeter',audio_input))
         audio_list = [audio_input] if not isinstance(audio_input, list) else audio_input
@@ -27,13 +37,17 @@ class AudioSpleeter:
         logging.info('processing {0} files'.format(str(len(audio_list))))
 
         for audio_input in audio_list:
+            #check if path exists
             if not os.path.exists(audio_input):
                 raise Exception("file: {0} not found".format(audio_input))
+            
             logging.debug('separating file {0}'.format('audio_input'))
 
+            #create audio adapter
             audio_loader = AudioAdapter.default()
             waveform, _ = audio_loader.load(audio_input, sample_rate=self.sample_rate)
 
+            #separate the audio
             self.separator.separate_to_file(audio_input, output_dir, synchronous=False)
 
             #remove extension from filename

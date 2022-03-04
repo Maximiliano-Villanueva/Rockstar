@@ -74,7 +74,39 @@ class AudioSpleeterTest(unittest.TestCase):
         self.assertEqual(os.path.exists(out_path), True)
 
         shutil.rmtree(out_path)
-#test for audio input none
+
+    def test_invalid_input_name(self):
+        """
+        test invalid value for input name parameter
+        """
+        self._createLogger()
+        from AudioSpleetc import AudioSpleeter
+
+        #create temp dir and file
+        ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+        input_dir_path = os.path.join(ROOT_DIR, '..', 'mock_input_invalid')
+        input_file_path = os.path.join(input_dir_path, 'audio_example.mp3')
+        
+        out_path = os.path.join(ROOT_DIR, 'test-output')
+        
+        audio_spleeter = AudioSpleeter()
+
+        #an exception is expected since the input does not exist
+        try:
+            #try to create the files
+            audio_spleeter.separate(input_file_path)
+            #error if no error is thrown
+            self.assertEqual(1, 0)
+        except:
+            #error has been detected
+            self.assertEqual(1, 1)
+
+        #attempt to remove any leaking file
+        try:
+            shutil.rmtree(out_path)
+        except:
+            pass
+
 
 
 unittest.main()
