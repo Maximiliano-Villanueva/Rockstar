@@ -3,7 +3,7 @@ import unittest
 import uuid
 import shutil
 
-CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'code')
+CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..','code')
 sys.path.append(CODE_DIR)
 
 from AppLoger import AppLoger
@@ -14,6 +14,14 @@ class FunctionsBlackBox(unittest.TestCase):
     """
     Blackbox testing for the functions file
     """
+
+    def setUp(self):
+        """
+        create the logger
+        """
+        self._createLogger()
+        
+
 
     def _createLogger(self):
         """
@@ -53,8 +61,9 @@ class FunctionsBlackBox(unittest.TestCase):
         """
         test the zipping of a folder
         """
-        self._createLogger()
         from functions import zip_folder
+        self._createLogger()
+        
         
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -78,9 +87,7 @@ class FunctionsBlackBox(unittest.TestCase):
         """
         test the removal of the a empty directory
         """
-        self._createLogger()
         from functions import delete_non_empty_folder
-        
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
         tmp_file_name = 'temp_file'

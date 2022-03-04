@@ -1,9 +1,10 @@
+#import coverage
 import sys, os
 import unittest
 import uuid
 import shutil
 
-CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'code')
+CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..','code')
 print(CODE_DIR)
 sys.path.append(CODE_DIR)
 
@@ -40,7 +41,7 @@ class AudioSpleeterTest(unittest.TestCase):
         
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-        input_dir_path = os.path.join(ROOT_DIR, '..', 'mock_input')
+        input_dir_path = os.path.join(ROOT_DIR, '..', '..','mock_input')
         input_file_path = os.path.join(input_dir_path, 'audio_example.mp3')
         
         out_path = os.path.join(ROOT_DIR, 'output')
@@ -62,7 +63,7 @@ class AudioSpleeterTest(unittest.TestCase):
         
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-        input_dir_path = os.path.join(ROOT_DIR, '..', 'mock_input')
+        input_dir_path = os.path.join(ROOT_DIR, '..', '..','mock_input')
         input_file_path = os.path.join(input_dir_path, 'audio_example.mp3')
         
         out_path = os.path.join(ROOT_DIR, 'test-output')
@@ -84,7 +85,7 @@ class AudioSpleeterTest(unittest.TestCase):
 
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-        input_dir_path = os.path.join(ROOT_DIR, '..', 'mock_input_invalid')
+        input_dir_path = os.path.join(ROOT_DIR, '..', '..','mock_input_invalid')
         input_file_path = os.path.join(input_dir_path, 'audio_example.mp3')
         
         out_path = os.path.join(ROOT_DIR, 'test-output')

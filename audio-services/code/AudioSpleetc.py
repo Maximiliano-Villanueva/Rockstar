@@ -32,6 +32,9 @@ class AudioSpleeter:
         #convert audio_input to list
         logging.info('entering function separate in class {0}, audio_input = {1}'.format('AudioSpleeter',audio_input))
         audio_list = [audio_input] if not isinstance(audio_input, list) else audio_input
+        
+        #remove repeated
+        audio_list = list(set(audio_list))
         file_paths = []
 
         logging.info('processing {0} files'.format(str(len(audio_list))))
