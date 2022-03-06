@@ -31,7 +31,8 @@ class CustomLogger:
 
         logger.setLevel(logging.DEBUG)  # here is the missing line
 
-        log_format = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        
+        log_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s:%(lineno)s - %(funcName)20s() - %(message)s')
         filename = log_file_path
         log_handler = logging.FileHandler(filename)
         log_handler.setLevel(logging.DEBUG)
