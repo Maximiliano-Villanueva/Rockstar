@@ -17,6 +17,14 @@ class AudioSpleeterTest(unittest.TestCase):
     Blackbox testing for the functions file
     """
 
+    def setUp(self):
+        """
+        create logger and assign sample_rate 
+        """
+        self._createLogger()
+        os.environ['SAMPLE_RATE'] = '44100'
+        
+
     def _createLogger(self):
         """
         create logger
@@ -36,7 +44,7 @@ class AudioSpleeterTest(unittest.TestCase):
         """
         test audio spleeter with default output folder
         """
-        self._createLogger()
+
         from AudioSpleetc import AudioSpleeter
         
         #create temp dir and file
@@ -58,7 +66,7 @@ class AudioSpleeterTest(unittest.TestCase):
         """
         test the zipping of a folder
         """
-        self._createLogger()
+
         from AudioSpleetc import AudioSpleeter
         
         #create temp dir and file
@@ -80,7 +88,7 @@ class AudioSpleeterTest(unittest.TestCase):
         """
         test invalid value for input name parameter
         """
-        self._createLogger()
+
         from AudioSpleetc import AudioSpleeter
 
         #create temp dir and file

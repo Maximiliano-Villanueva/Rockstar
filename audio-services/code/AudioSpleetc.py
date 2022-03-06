@@ -13,7 +13,7 @@ class AudioSpleeter:
 
     def __init__(self):
         self.separator = Separator('spleeter:5stems')
-        self.sample_rate = 44100
+        self.sample_rate = int(os.getenv("SAMPLE_RATE"))
     
     def separate(self, audio_input, output_dir = 'output'):
         """
