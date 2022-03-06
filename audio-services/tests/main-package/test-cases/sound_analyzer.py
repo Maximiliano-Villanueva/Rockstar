@@ -1,5 +1,6 @@
 import sys
 import os
+import uuid
 import unittest
 
 CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..','code')
@@ -9,7 +10,6 @@ CODE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 
 sys.path.append(CODE_DIR)
 
 from AppLoger import AppLoger
-from analyzer import ChordExtractor
 
 
 class FunctionsBlackBox(unittest.TestCase):
@@ -23,6 +23,7 @@ class FunctionsBlackBox(unittest.TestCase):
         create the logger
         """
         self._createLogger()
+        from analyzer import ChordExtractor
 
     def _createLogger(self):
         """
@@ -51,3 +52,7 @@ class FunctionsBlackBox(unittest.TestCase):
         chords = extractor.extractChords(input_file_path)
 
         self.assertGreater(len(chords), 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
