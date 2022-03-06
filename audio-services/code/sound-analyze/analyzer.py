@@ -44,13 +44,13 @@ class ChordExtractor(Chordino):
             #error parsing files
             self.logger.error('an error ocurred while extracting chords in function extract_many. File list: {0} '.format(str(files_path)))
             self.logger.error(str(error))
-            
+
             return []
 
         return res
 
 
-#create temp dir and file
+"""#create temp dir and file
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 file_name = 'other.wav'
 sound_path = os.path.join(ROOT_DIR, '..', 'output', 'come', file_name)
@@ -60,5 +60,5 @@ sound_path = os.path.join(ROOT_DIR, '..', 'output', 'come', file_name)
 extractor = ChordExtractor()
 chords = extractor.extractChords(sound_path)
 
-print(chords)
+print(chords)"""
 

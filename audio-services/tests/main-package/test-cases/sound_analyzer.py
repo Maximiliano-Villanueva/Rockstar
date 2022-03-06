@@ -23,7 +23,7 @@ class FunctionsBlackBox(unittest.TestCase):
         create the logger
         """
         self._createLogger()
-        from analyzer import ChordExtractor
+        
 
     def _createLogger(self):
         """
@@ -39,7 +39,7 @@ class FunctionsBlackBox(unittest.TestCase):
         self.logger = AppLoger.getLogger(uuid_session_str)
 
     def test_checkCoords(self):
-
+        from analyzer import ChordExtractor
         #create temp dir and file
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
         file_name = 'other.wav'
