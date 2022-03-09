@@ -1,11 +1,13 @@
 import mysql.connector
+from Abstrac_Handler import AbstractHandler
 
-class MysqlConnector:
+@AbstractHandler.register
+class MysqlConnector(AbstractHandler):
     """
     mysql connector handler for CRUD operations
     """
 
-    def __init__(self, host = None, user = None, password = None, database = None, logger = None):
+    def __init__(self, host = None, user = None, password = None, database = None):
         """
         basic connection
         """
@@ -16,9 +18,9 @@ class MysqlConnector:
             database = database
         )
 
-        self.logger = logger
+        AbstractHandler.__init__(self)
 
-    def write(self, query, values = None):
+    def write(self, **kargs):
         """
         execute sql command
         example: "INSERT INTO customers (name, address) VALUES (%s, %s)"
@@ -27,48 +29,60 @@ class MysqlConnector:
                 ('Amy', 'Apple st 652')
             ]
         """
-        logger = self.logger
-        if logger is not None:
-            logger.info('entering function execute')
+        logging = self.logging
+        #validate params
+        requested_params = ['query']
+
+        if not self.validateParameter(parameter = requested_params, param_list = kargs):
+            logging.error('error calling function {0}, missing parameters'.format('write'))
+            raise Exception('parameters {0} are required'.format(str(requested_params)))
+        
+        query = kargs['query']
+        values = kargs['values'] if 'values' in kargs.keys() else None
+
+        logging.info('entering function execute')
 
         cursor = self.db.cursor()
 
-        if logger is not None:
-            logger.debug('cursor opened')
+        logging.debug('cursor opened')
 
-        if values is not None:
+        if values is None:
             cursor.execute(query)
 
         else:
             cursor.execute(query, values)
         
-        
-        if logger is not None:
-            logger.debug('query: {0}. Values : {1}'.format(query, values))
-            logger.info('leaving function execute')   
+        logging.debug('query: {0}. Values : {1}'.format(query, str(values)))
+        logging.info('leaving function execute')   
 
         self.db.commit()
     
-    def get(self, query):
+    def get(self, **kargs):
         """
         execute sql command
         """
-        logger = self.logger
-        if logger is not None:
-            logger.info('entering function select')
+        logging = self.logging
+        #validate params
+        requested_params = ['query']
+
+        if not self.validateParameter(parameter = requested_params, param_list = kargs):
+            logging.error('error calling function {0}, missing parameters'.format('write'))
+            raise Exception('parameters {0} are required'.format(str(requested_params)))
+
+        query = kargs['query']
+
+        logging.info('entering function select')
 
         cursor = self.db.cursor()
 
-        if logger is not None:
-            logger.debug('cursor opened')
+        logging.debug('cursor opened')
 
         cursor.execute(query)
         
         res = cursor.fetchall()
         
-        if logger is not None:
-            logger.debug('query: {0}'.format(query))
-            logger.info('leaving function select')   
+        logging.debug('query: {0}'.format(query))
+        logging.info('leaving function select')   
 
         return res
 
