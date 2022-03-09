@@ -4,7 +4,9 @@ import sys
 from glob import glob
 from Abstrac_Handler import AbstractHandler
 
-sys.path.append(os.getenv.get('root_dir'))
+curr_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.join(curr_dir, '..')
+sys.path.append(root_dir)
 
 from AppLoger import AppLoger
 
@@ -22,11 +24,17 @@ class FileHandler(AbstractHandler):
         """
         implemententation of base class
         request -> flask file upload object
-        path -> output path
+        path -> input path
+
+        dependencies :
+            - environment : UPLOADS_DIR, root_dir
+        requires : 
+        returns bool : Tells if operation was successful
         """
+
         logging = self.logging
         #validate params
-        requested_params = ['request', 'path', 'filename']
+        requested_params = ['request']
 
         if not self.validateParameter(parameter = requested_params, param_list = kargs):
             logging.error('error calling function {0}, missing parameters'.format('write'))
@@ -34,24 +42,33 @@ class FileHandler(AbstractHandler):
 
         
         audio = kargs['request']
-        path = kargs['path']
 
-        uploads_dir = os.getenv.get('UPLOADS_DIR')
-        root_dir = os.getenv.get('root_dir')
+        #get paths
+        uploads_dir = os.environ.get('UPLOADS_DIR')
+        root_dir = os.environ.get('root_dir')
         abs_path = os.path.join(root_dir,uploads_dir)
 
+        abs_path = abs_path if 'path' not in kargs.keys() else kargs['path']
+        
+        if not os.path.exists(os.path.dirname(abs_path)):
+            raise Exception('path {0] does not exist'.format(abs_path))
         try:
             audio.save(abs_path)
         except Exception as error:
             logging.error('error saving file {}: '.format(audio.filename))
             raise Exception(error)
 
+        return True
         
     
     
     def read(self, **kargs):
         """
         implemententation of base class
+        path -> str : path where to read files from
+        [filter] -> str -> filter for glob. default : '*'
+
+        returns list of strings
         """
         logging = self.logging
         
@@ -68,5 +85,3 @@ class FileHandler(AbstractHandler):
         results = glob(os.path.join(path, filter))
         results =[os.path.basename(r) for r in results]
         return results
-
-        pass

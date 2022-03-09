@@ -1,7 +1,10 @@
 import abc
-import os
+import os, sys
+from pathlib import Path
+curr_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.join(curr_dir, '..')
 
-sys.path.append(os.getenv.get('root_dir'))
+sys.path.append(root_dir)
 from AppLoger import AppLoger
 
 class AbstractHandler(metaclass=abc.ABCMeta):
