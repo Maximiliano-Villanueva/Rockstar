@@ -7,3 +7,5 @@ audio-services/code/uploads/*
 *.log
 audio-services/code/pretrained_models/*
 audio-services/tests/main-package/test-cases/pretrained_models/*
+volume/mysql/*
+volume/uploads/*

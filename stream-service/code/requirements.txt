@@ -1,0 +1,4 @@
+flask
+tornado
+python-dotenv
+mysql-connector-python
