@@ -14,31 +14,36 @@ class AssetHandler:
         handler = new_handler
 
     @staticmethod
-    def write(sentence, values = None):
+    def write(**kargs):
         """
         call the write function of the handler
         """
-        if logger is not None:
-            logger.info('entering write method of AssetHandler')
-        return handler.write(sentence, values)
+        
+        if AssetHandler.logger is not None:
+            AssetHandler.logger.info('entering write method of AssetHandler')
+        
+        return AssetHandler.handler.write(**kargs)
 
     @staticmethod
-    def read(sentence):
+    def read(**kargs):
         """
         call the read function of the handler
         """
-        if logger is not None:
-            logger.info('entering read method of AssetHandler')
-        return handler.get(sentence)
+        
+        if AssetHandler.logger is not None:
+            AssetHandler.logger.info('entering read method of AssetHandler')
+        
+        return AssetHandler.handler.read(**kargs)
 
     @staticmethod
     def update(sentence):
         """
         call the read function of the handler
         """
-        if logger is not None:
-            logger.info('entering update method of AssetHandler')
-            
-        return handler.update(sentence)
+        
+        if AssetHandler.logger is not None:
+            AssetHandler.logger.info('entering update method of AssetHandler')
+        
+        return AssetHandler.handler.update(sentence)
 
     

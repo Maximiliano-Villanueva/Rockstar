@@ -1,9 +1,10 @@
 
-import os
+import os,sys
 import app
 from AppLoger import AppLoger
-#from asset_handler import AssetHandler
+from asset_handler import AssetHandler
 #from asset_handlers.db_writer import MysqlConnector
+
 import pathlib
 import uuid
 
@@ -12,6 +13,8 @@ from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'asset_handlers'))
+from file_writer import FileHandler
 
 if __name__ == '__main__':
     """
@@ -31,11 +34,13 @@ if __name__ == '__main__':
     """
     create asset handler
     """
-    """
-    db_conn = MysqlConnector(host = os.getenv("MYSQL_HOST"), user = os.getenv("MYSQL_USER"), password = os.getenv("MYSQL_PASSWORD"), database = os.getenv("MYSQL_DB"), logger = logger)
-    AssetHandler.logger = logger
-    AssetHandler.setHandler(db_conn)
-    """
+    
+    #db_conn = MysqlConnector(host = os.getenv("MYSQL_HOST"), user = os.getenv("MYSQL_USER"), password = os.getenv("MYSQL_PASSWORD"), database = os.getenv("MYSQL_DB"), logger = logger)
+    fh = FileHandler()
+
+    setattr(AssetHandler, 'logger', logger)
+    setattr(AssetHandler, 'handler', fh)
+    
     host = os.getenv("FLASK_HOST")
     port = os.getenv("FLASK_PORT")
     debug = os.getenv("FLASK_DEBUG")

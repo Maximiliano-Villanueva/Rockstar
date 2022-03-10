@@ -27,10 +27,13 @@ def index():
 def get_songs():
     
     logging.info('routing to: {0}'.format('get_songs'))
-    rootdir = os.environ.get('ROOT_DIR')
     
+    rootdir = os.environ.get('ROOT_DIR')
+    """
     results = glob(os.path.join(rootdir, 'music', 'uploads', '*'))
     results =[os.path.basename(r) for r in results]
+    """
+    results = AssetHandler.read(path = os.path.join(rootdir, 'music', 'uploads'), filter = '*')
     return jsonify(results)
 
 @app.route('/play/<string:stream_id>')

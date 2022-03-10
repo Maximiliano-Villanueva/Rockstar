@@ -70,6 +70,8 @@ class FileHandler(AbstractHandler):
 
         returns list of strings
         """
+
+        
         logging = self.logging
         
         requested_params = ['path']
