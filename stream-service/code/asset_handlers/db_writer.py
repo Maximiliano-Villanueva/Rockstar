@@ -50,14 +50,14 @@ class MysqlConnector(AbstractHandler):
             cursor.execute(query)
 
         else:
-            cursor.execute(query, values)
+            cursor.executemany(query, values)
         
         logging.debug('query: {0}. Values : {1}'.format(query, str(values)))
         logging.info('leaving function execute')   
 
         self.db.commit()
     
-    def get(self, **kargs):
+    def read(self, **kargs):
         """
         execute sql command
         """
@@ -88,6 +88,6 @@ class MysqlConnector(AbstractHandler):
 
 
 
-a = MysqlConnector(host = "db-music", user = 'user', password = 'password', database='audio_service')
-a.write("INSERT INTO song (title) values ('test')")
+#a = MysqlConnector(host = "db-music", user = 'user', password = 'password', database='audio_service')
+#a.write("INSERT INTO song (title) values ('test')")
     

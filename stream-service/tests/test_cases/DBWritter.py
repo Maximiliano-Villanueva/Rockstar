@@ -20,7 +20,7 @@ sys.path.append(CODE_DIR)
 sys.path.append(HANDLERS_DIR)
 
 
-from db_writter import MysqlConnector
+from db_writer import MysqlConnector
 from AppLoger import AppLoger
 
 
@@ -52,14 +52,37 @@ class FileWriterTest(unittest.TestCase):
         AppLoger.create_logger(guid = uuid_session_str, log_name=str(type(self)))
         self.logger = AppLoger.getLogger(uuid_session_str)
 
+    def readBinaryContent(self, path):
+        """
+        read file data as binary content
+        """
+        
+        with open(path, 'rb') as audio_file:
+            bin_content = audio_file.read()
+
+        return bin_content
+
     def test_write_to_db(self):
         """
         test exception with invalid parameter
         """
+        # mysql -u user -p audio_service
+        # mariadb -u user -p audio_service
         #get the list of files
-        db_conn = MysqlConnector(host = os.getenv("MYSQL_HOST"), user = os.getenv("MYSQL_USER"), password = os.getenv("MYSQL_PASSWORD"), database = os.getenv("MYSQL_DB"), logger = logger)
+        db_conn = MysqlConnector(host = os.getenv("MYSQL_HOST"), user = os.getenv("MYSQL_USER"), password = os.getenv("MYSQL_PASSWORD"), database = os.getenv("MYSQL_DB"))
 
-        db_conn.write("INSERT INTO song (title) values ('test')")
+        #https://pynative.com/python-mysql-blob-insert-retrieve-file-image-as-a-blob-in-mysql/
+
+        #load file for testing
+        curr_dir = os.path.dirname(os.path.abspath(__file__))
+        file_dir = Path(os.path.join(curr_dir, '..', 'test_input', 'come.mp3')).resolve()
+
+        #read file
+        bin_content = self.readBinaryContent(file_dir)
+
+
+
+        db_conn.write(query = "INSERT INTO audio ( title, content) values (%s,%s)", values = [('come.mp3', bin_content)])
 
         self.assertRaises(1, 1)
         

@@ -2,24 +2,25 @@ version: '3'
 
 services:
 
-    db-mysql:
-        image: mysql/mysql-server:latest
+    audio-services:
         restart: always
-        container_name : db-music
+        container_name : audio-services
+        build: ./audio-services
+        tty: true
         ports: 
-            - '3306:3306'
-        environment:
-            MYSQL_ROOT_PASSWORD: pwd
-            MYSQL_DATABASE : audio_service
-            MYSQL_USER : user
-            MYSQL_PASSWORD : password
-        expose:
-            - '3306:3306'
+            - '9003:8081'
+
         volumes:
           - type: bind
-            source : E:\python-code\Rockstar\volume\mysql
-            target : /var/lib/mysql
+            source : E:\python-code\Rockstar\audio-services
+            target : /home/shared-files
 
+          - type: bind
+            source : E:\python-code\Rockstar\volume
+            target : /home/shared-files/code/uploads
+
+        depends_on:
+            - db-mysql
 
     stream-service:
         restart: always
@@ -27,7 +28,7 @@ services:
         build: ./stream-service
         tty: true
         ports: 
-            - '9003:8081'
+            - '9004:8081'
 
         volumes:
           - type: bind
@@ -37,11 +38,35 @@ services:
           - type: bind
             source : E:\python-code\Rockstar\volume
             target : /home/shared-files/code/music
-
         depends_on:
             - db-mysql
+            
+    db-mysql:
+        image: mariadb
+        restart: always
+        container_name : db-music
+        ports: 
+            - '3306:3306'
 
+        environment:
+            MARIADB_ROOT_PASSWORD: pwd
+            MARIADB_DATABASE : audio_service
+            MARIADB_USER : user
+            MARIADB_PASSWORD : password
+        #avoid error for STRICT_TRANS_TABLES (error was thrown if no default value was assigned to primary key)
+        command: mysqld --sql_mode=""
 
+        expose:
+            - '3306:3306'
+        volumes:
+          # persist data files into `datadir` volume managed by docker
+          - datadir:/var/lib/mysql
+          # bind-mount any sql files that should be run while initializing
+          - ./tables.sql:/docker-entrypoint-initdb.d/schema.sql
+
+volumes:
+    datadir:
+    
 networks:
     net:
         ipam:
